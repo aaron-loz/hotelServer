@@ -1,0 +1,33 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    hotelServer(Q_NULLPTR),
+    networkSession(0),
+    ui(new Ui::MainWindow)
+{
+    QNetworkConfigurationManager manager;
+        
+    ui->setupUi(this);
+}
+
+void MainWindow::sessionOpened()
+{
+    
+}
+
+void MainWindow::sendHotelData()
+{
+    
+}
+
+void MainWindow::sendRoomData()
+{
+    
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}

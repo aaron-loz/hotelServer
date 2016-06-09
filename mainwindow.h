@@ -1,5 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#include "guestdata.h"
+#include "roomdata.h"
 
 #include <QDialog>
 #include <QMainWindow>
@@ -21,14 +23,14 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 private slots:
-    /*void sessionOpened();
+    void sessionOpened();
     void sendHotelData();
-    void sendRoomData();*/
+    void sendRoomData();
 private:
     QNetworkSession *networkSession;
     QTcpServer *hotelServer;
-    QStringList guestData;
-    QStringList roomData;
+    guestData *curGuestData;
+    roomData *curRoomData;
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

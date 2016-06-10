@@ -1,6 +1,7 @@
 #ifndef GUESTDATA_H
 #define GUESTDATA_H
-
+#include <QString>
+#include <QWidget>
 
 class guestData
 {
@@ -11,7 +12,7 @@ private slots:
     void setCheckIn();
     void getGuestData();
 private:
-string fullName;
+QString fullName;
 int numNights;
 int checkInDate;
 int roomNumAssigned;

@@ -22,3 +22,6 @@ HEADERS  += mainwindow.h \
     guestdata.h
 
 FORMS    += mainwindow.ui
+# install
+target.path = $$[QT_INSTALL_EXAMPLES]/network/fortuneserver
+INSTALLS += target

@@ -2,11 +2,12 @@
 #define ROOMDATA_H
 #include<QWidget>
 
-class roomData
+class roomData: public QObject
 {
+    Q_OBJECT
 public:
     roomData();
-private slots:
+public slots:
 void setBedData();
 void setRoomData();
 void getRoom();

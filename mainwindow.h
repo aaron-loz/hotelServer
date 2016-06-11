@@ -34,5 +34,7 @@ private:
     roomData *curRoomData;
     QStringList hotelInfo;
     Ui::MainWindow *ui;
+signals:
+    void socketConnected();
 };
 #endif // MAINWINDOW_H

@@ -82,23 +82,34 @@ void MainWindow::sendHotelInfo()
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_0);
     out << (quint16)0;
-    out << hotelInfo.at(qrand() % hotelInfo.size());
-    out.device()->seek(0);
-    out << (quint16)(block.size() - sizeof(quint16));
+    out << hotelInfo;
+    out.device()->seek(0);//This goes back to beginning to overwrite quint value
+    out << (quint16)(block.size() - sizeof(quint16));//for actual data size
+    //TCPSocket work
     QTcpSocket *clientConnection = hotelServer->nextPendingConnection();
     connect(clientConnection, &QAbstractSocket::disconnected,
             clientConnection, &QObject::deleteLater);
     clientConnection->write(block);
     clientConnection->disconnectFromHost();
+
 }
 
 void MainWindow::sendRoomData()
 {
-
+    roomData *curRoomData = new roomData();
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_4_0);
+    out << (quint16)0;//REMEMBER TO DECLARE CLASS INHERITS QOBJECT
+    connect(this,SIGNAL(socketConnected()),curRoomData,SLOT(getRoom()));
+    emit socketConnected();
 }
 void MainWindow::sendGuestData()
 {
-
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_4_0);
+    out << (quint16)0;
 }
 
 MainWindow::~MainWindow()

@@ -3,8 +3,9 @@
 #include <QString>
 #include <QWidget>
 
-class guestData
+class guestData: public QObject
 {
+    Q_OBJECT
 public:
     guestData();
 private slots:

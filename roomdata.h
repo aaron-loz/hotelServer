@@ -16,7 +16,7 @@ int num;
 int numBeds;
 bool smoking;
 int floorLvl;
-int bedType;
+QString bedType;
 };
 
 #endif // ROOMDATA_H

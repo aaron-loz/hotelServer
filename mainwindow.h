@@ -32,7 +32,7 @@ private:
     QTcpServer *hotelServer;
     guestData *curGuestData;
     roomData *curRoomData;
-    QStringList hotelInfo;
+    QString hotelInfo;
     Ui::MainWindow *ui;
 signals:
     void socketConnected();

@@ -27,7 +27,10 @@ MainWindow::MainWindow(QWidget *parent) :
         networkSession = new QNetworkSession(config, this);
         connect(networkSession, &QNetworkSession::opened, this, &MainWindow::sessionOpened);
         networkSession->open();
-        hotelInfo <<tr("Hotel data goes Here");
+        hotelInfo =tr("Title: Hampton Inn\n"
+                  "Number of available rooms: 50\n"
+                  "Number of floors: 10\n"
+                  "Number of unavailable rooms: 5\n");
     }
     else {//if none of this can be done then it opens session straight away
             sessionOpened();}

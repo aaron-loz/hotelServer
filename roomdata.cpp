@@ -27,7 +27,7 @@ void roomData::getRoom(){
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_0);
-    out<<"Room Number: "<<num<<"Number of beds"<<numBeds
-      <<"smoking: "<<isRoomSmoking<<"Floor: "<<floorLvl
-     <<"bed Type: "<<bedType;
+    roomInfo="Room Number: ",num,"\nNumber of beds: ",numBeds
+           ,"\nsmoking: ",isRoomSmoking,"\nFloor: ",floorLvl
+           ,"\nbed Type: ",bedType;
 }

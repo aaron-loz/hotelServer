@@ -99,13 +99,21 @@ void MainWindow::sendHotelInfo()
 
 void MainWindow::sendRoomData()
 {
+    connect(this,SIGNAL(socketConnected()),curRoomData,SLOT(getRoom()));
+    emit socketConnected();
     roomData *curRoomData = new roomData();
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_0);
     out << (quint16)0;//REMEMBER TO DECLARE CLASS INHERITS QOBJECT
-    connect(this,SIGNAL(socketConnected()),curRoomData,SLOT(getRoom()));
-    emit socketConnected();
+    out<<curRoomData->roomInfo;//this is the roomData
+    out.device()->seek(0);
+    out<< (quint16)(block.size()-sizeof(quint16));
+    QTcpSocket *clientConnection = hotelServer->nextPendingConnection();
+    connect(clientConnection, &QAbstractSocket::disconnected,
+            clientConnection, &QObject::deleteLater);
+    clientConnection->write(block);
+    clientConnection->disconnectFromHost();
 }
 void MainWindow::sendGuestData()
 {

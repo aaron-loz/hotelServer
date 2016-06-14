@@ -3,6 +3,7 @@
 #include "guestdata.h"
 #include "roomdata.h"
 
+#include <QString>
 #include <QDialog>
 #include <QMainWindow>
 

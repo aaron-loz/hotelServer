@@ -7,6 +7,7 @@ class roomData: public QObject
     Q_OBJECT
 public:
     roomData();
+    QString roomInfo;
 public slots:
 void setBedData();
 void setRoomData();

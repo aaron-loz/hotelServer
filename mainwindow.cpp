@@ -35,7 +35,9 @@ MainWindow::MainWindow(QWidget *parent) :
     else {//if none of this can be done then it opens session straight away
             sessionOpened();}
     connect(ui->quitButton, &QAbstractButton::clicked, this, &QWidget::close);
+//!This might need to change so that I can send data that is not just hotelInfo
     connect(hotelServer, &QTcpServer::newConnection, this, &MainWindow::sendHotelInfo);
+    //!
     setWindowTitle("Hotel Server");
 }
 
@@ -120,7 +122,15 @@ void MainWindow::sendGuestData()
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_0);
-    out << (quint16)0;
+    out << (quint16)0;//this is guestData
+    out<<curGuestData->guestInfo;
+    out.device()->seek(0);
+    out<<(quint16)(block.size()-sizeof(quint16));
+    QTcpSocket *clientConnection = hotelServer->nextPendingConnection();
+    connect(clientConnection, &QAbstractSocket::disconnected,
+            clientConnection, &QObject::deleteLater);
+    clientConnection->write(block);
+    clientConnection->disconnectFromHost();
 }
 
 MainWindow::~MainWindow()

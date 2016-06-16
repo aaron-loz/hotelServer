@@ -12,6 +12,7 @@ public slots:
 void setBedData();
 void setRoomData();
 void getRoom();
+
 private:
 int num;
 int numBeds;

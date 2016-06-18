@@ -8,6 +8,7 @@ class guestData: public QObject
     Q_OBJECT
 public:
     guestData();
+    QString guestInfo;
 private slots:
     void setGuestData();
     void setCheckIn();

@@ -32,10 +32,10 @@ MainWindow::MainWindow(QWidget *parent) :
     else {//if none of this can be done then it opens session straight away
             sessionOpened();}
 
-    hotelInfo =tr("Title: Hampton Inn\n"
+    hotelInfo =tr("Hotel Name: Hampton Inn\n"
               "Number of available rooms: 50\n"
               "Number of floors: 10\n"
-              "Number of unavailable rooms: 5\n");
+              "Number of unavailable rooms: 5");
 
     connect(ui->quitButton, &QAbstractButton::clicked, this, &QWidget::close);
 //!This might need to change so that I can send data that is not just hotelInfo
@@ -104,18 +104,20 @@ void MainWindow::sendHotelInfo()
     clientConnection->write(block);
     clientConnection->disconnectFromHost();
 
+    sendRoomData();
 }
 
 void MainWindow::sendRoomData()
 {
-    connect(this,SIGNAL(socketConnected()),curRoomData,SLOT(getRoom()));
-    emit socketConnected();
     roomData *curRoomData = new roomData();
+
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_0);
     out << (quint16)0;//REMEMBER TO DECLARE CLASS INHERITS QOBJECT
-    out<<curRoomData->roomInfo;//this is the roomData
+    for(int i=0;i<49;i++){
+    out<<curRoomData[i];//this is the roomData
+    }
     out.device()->seek(0);
     out<< (quint16)(block.size()-sizeof(quint16));
     QTcpSocket *clientConnection = hotelServer->nextPendingConnection();
@@ -123,9 +125,13 @@ void MainWindow::sendRoomData()
             clientConnection, &QObject::deleteLater);
     clientConnection->write(block);
     clientConnection->disconnectFromHost();
+
+    sendGuestData();
 }
 void MainWindow::sendGuestData()
 {
+
+
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_0);

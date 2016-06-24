@@ -9,7 +9,6 @@ public:
     roomData();
     QString roomInfo;
 public slots:
-void setBedData();
 void setRoomData();
 void getRoom();
 
@@ -17,6 +16,7 @@ private:
 int num;
 int numBeds;
 bool smoking;
+bool occupied;
 int floorLvl;
 QString bedType;
 };

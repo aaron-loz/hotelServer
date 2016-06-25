@@ -2,97 +2,84 @@
 #include <QtDebug>
 roomData::roomData()
 {
-    setRoomData();
 }
 
 
-void roomData::setRoomData(){
+void roomData::setRoomData(roomData &rooms , int &i){
     //In The Future: When Client asks to set room stuff, this will do change to the roomData
-    roomData rooms[49];
-    for(int i=0;i<49;i+=2)
-    {
-        rooms[i].smoking =false;
-        rooms[i].bedType ="King";
+    if(i%2==0){
+        rooms.smoking =false;
+        rooms.bedType ="King";
         if(i%3==0)
-            rooms[i].numBeds=2;
+            rooms.numBeds=2;
         else
-            rooms[i].numBeds=1;
+            rooms.numBeds=1;
     }
-    for(int i=1; i<49;i+=2)
-    {
-        rooms[i].smoking = true;
-        rooms[i].bedType = "Full";
+    else{
+        rooms.smoking = true;
+        rooms.bedType = "Full";
         if(i%3==0)
-            rooms[i].numBeds=2;
+            rooms.numBeds=2;
         else
-            rooms[i].numBeds=1;
+            rooms.numBeds=1;
     }
-    for(int n=0;n<49;n++)
-    {
-      if( n<5)
+
+      if( i<5)
       {
-           rooms[n].floorLvl=1;
-            for(int i=0;i<5;i++){
-             rooms[n].num=100+i;}
+           rooms.floorLvl=1;
+             rooms.num=100+i;
       }
-      else if( n>=5 &&n<10)
+      else if( i>=5 &&i<10)
       {
-           rooms[n].floorLvl=2;
-           for(int i=0;i<5;i++){
-            rooms[n].num=200+i;}
+           rooms.floorLvl=2;
+           rooms.num=200+i;
       }
-      else if(n>=10 && n<15)
+      else if(i>=10 && i<15)
       {
-           rooms[n].floorLvl=3;
-           for(int i=0;i<5;i++){
-            rooms[n].num=300+i;}
+           rooms.floorLvl=3;
+            rooms.num=300+i;
       }
-      else if(n>=15 &&n<20)
+      else if(i>=15 &&i<20)
       {
-           rooms[n].floorLvl=4;
-           for(int i=0;i<5;i++){
-            rooms[n].num=400+i;}
+           rooms.floorLvl=4;
+            rooms.num=400+i;
       }
-      else if( n>=20 && n<25)
+      else if( i>=20 && i<25)
       {
-           rooms[n].floorLvl=5;
-           for(int i=0;i<5;i++){
-            rooms[n].num=500+i;}
+           rooms.floorLvl=5;
+            rooms.num=500+i;
       }
-      else if(n>=25 && n<30)
+      else if(i>=25 && i<30)
       {
-           rooms[n].floorLvl=6;
-           for(int i=0;i<5;i++){
-            rooms[n].num=600+i;}
+           rooms.floorLvl=6;
+            rooms.num=600+i;
       }
-      else if(n>=30 && n<35)
+      else if(i>=30 && i<35)
       {
-          rooms[n].floorLvl =7;
+          rooms.floorLvl =7;
+           rooms.num=700+i;
+      }
+      else if(i>=35 && i<40)
+      {
+          rooms.floorLvl =8;
+           rooms.num=800+i;
+      }
+      else if(i>=40 && i<45)
+      {
+          rooms.floorLvl =9;
           for(int i=0;i<5;i++){
-           rooms[n].num=700+i;}
-      }
-      else if(n>=35 && n<40)
-      {
-          rooms[n].floorLvl =8;
-          for(int i=0;i<5;i++){
-           rooms[n].num=800+i;}
-      }
-      else if(n>=40 && n<45)
-      {
-          rooms[n].floorLvl =9;
-          for(int i=0;i<5;i++){
-           rooms[n].num=900+i;}
+           rooms.num=900+i;}
       }
       else
       {
-          rooms[n].floorLvl =10;
+          rooms.floorLvl =10;
           for(int i=0;i<5;i++){
-           rooms[n].num=1000+i;}
+           rooms.num=1000+i;}
       }
-    }
-    for(int i=0;i<3;i++){
+
+    if(i<3){
         //For now the first three rooms will be occupied, I want to make this random
-        rooms[i].occupied = true;
+        rooms.occupied = true;
     }
 }
 

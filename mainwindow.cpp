@@ -116,8 +116,10 @@ void MainWindow::sendRoomData()
     out.setVersion(QDataStream::Qt_4_0);
     out << (quint16)0;//REMEMBER TO DECLARE CLASS INHERITS QOBJECT
     for(int i=0;i<49;i++){
-    out<<curRoomData[i];//this is the roomData
+    curRoomData[i].setRoomData(curRoomData[i],i);//this is the roomData
+    qDebug()<<curRoomData[i].num;
     }
+    //out<<
     out.device()->seek(0);
     out<< (quint16)(block.size()-sizeof(quint16));
     QTcpSocket *clientConnection = hotelServer->nextPendingConnection();

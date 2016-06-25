@@ -9,7 +9,7 @@ public:
     roomData();
     QString roomInfo;
 public slots:
-void setRoomData();
+void setRoomData(roomData &rooms, int &i);
 void getRoom();
 
 private:

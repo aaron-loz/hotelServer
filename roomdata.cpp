@@ -5,81 +5,79 @@ roomData::roomData()
 }
 
 
-void roomData::setRoomData(roomData &rooms , int &i){
+void roomData::setRoomData(int &i){
     //In The Future: When Client asks to set room stuff, this will do change to the roomData
     if(i%2==0){
-        rooms.smoking =false;
-        rooms.bedType ="King";
+        smoking =false;
+        bedType ="King";
         if(i%3==0)
-            rooms.numBeds=2;
+            numBeds=2;
         else
-            rooms.numBeds=1;
+            numBeds=1;
     }
     else{
-        rooms.smoking = true;
-        rooms.bedType = "Full";
+        smoking = true;
+        bedType = "Full";
         if(i%3==0)
-            rooms.numBeds=2;
+            numBeds=2;
         else
-            rooms.numBeds=1;
+            numBeds=1;
     }
 
       if( i<5)
       {
-           rooms.floorLvl=1;
-             rooms.num=100+i;
+           floorLvl=1;
+             num=100+(i%5);
       }
       else if( i>=5 &&i<10)
       {
-           rooms.floorLvl=2;
-           rooms.num=200+i;
+           floorLvl=2;
+           num=200+(i%5);
       }
       else if(i>=10 && i<15)
       {
-           rooms.floorLvl=3;
-            rooms.num=300+i;
+           floorLvl=3;
+            num=300+(i%5);
       }
       else if(i>=15 &&i<20)
       {
-           rooms.floorLvl=4;
-            rooms.num=400+i;
+           floorLvl=4;
+            num=400+(i%5);
       }
       else if( i>=20 && i<25)
       {
-           rooms.floorLvl=5;
-            rooms.num=500+i;
+           floorLvl=5;
+            num=500+(i%5);
       }
       else if(i>=25 && i<30)
       {
-           rooms.floorLvl=6;
-            rooms.num=600+i;
+           floorLvl=6;
+            num=600+(i%5);
       }
       else if(i>=30 && i<35)
       {
-          rooms.floorLvl =7;
-           rooms.num=700+i;
+          floorLvl =7;
+           num=700+(i%5);
       }
       else if(i>=35 && i<40)
       {
-          rooms.floorLvl =8;
-           rooms.num=800+i;
+          floorLvl =8;
+           num=800+(i%5);
       }
       else if(i>=40 && i<45)
       {
-          rooms.floorLvl =9;
-          for(int i=0;i<5;i++){
-           rooms.num=900+i;}
+          floorLvl =9;
+           num=900+(i%5);
       }
       else
       {
-          rooms.floorLvl =10;
-          for(int i=0;i<5;i++){
-           rooms.num=1000+i;}
+          floorLvl =10;
+           num=1000+(i%5);
       }
 
     if(i<3){
         //For now the first three rooms will be occupied, I want to make this random
-        rooms.occupied = true;
+        occupied = true;
     }
 }
 

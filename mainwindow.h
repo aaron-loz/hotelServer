@@ -6,6 +6,7 @@
 #include <QString>
 #include <QDialog>
 #include <QMainWindow>
+#include <QtNetwork>
 
 QT_USE_NAMESPACE
 class QTcpServer;
@@ -28,6 +29,8 @@ private slots:
     void sendGuestData();
     void sendRoomData();
     void sendHotelInfo();
+    void on_quitButton_clicked();
+
 private:
     QNetworkSession *networkSession;
     QTcpServer *hotelServer;
@@ -35,6 +38,7 @@ private:
     roomData *curRoomData;
     QString hotelInfo;
     Ui::MainWindow *ui;
+    QTcpSocket *clientConnection;
 signals:
     void socketConnected();
 };

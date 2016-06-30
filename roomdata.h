@@ -9,10 +9,10 @@ public:
     roomData();
     QString roomInfo;
 public slots:
-void setRoomData(roomData &rooms, int &i);
+void setRoomData(int &i);
 void getRoom();
 
-private:
+public:
 int num;
 int numBeds;
 bool smoking;

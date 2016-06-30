@@ -87,6 +87,11 @@ void MainWindow::sessionOpened()
 
 void MainWindow::sendHotelInfo()
 {
+    roomData **curRoomData = new roomData*[49];
+    for(int i=0;i<49;i++){
+        curRoomData[i]= new roomData();
+    }
+
     qDebug()<<"sendHotelInfo called";
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
@@ -94,41 +99,47 @@ void MainWindow::sendHotelInfo()
 
     out << (quint16)0;
     out << hotelInfo;
+    for(int i=0;i<49;i++){
+    curRoomData[i]->setRoomData(i);//this is the roomData allocation
+    out <<(qint32)curRoomData[i]->num;
+    qDebug()<<(qint32)curRoomData[i]->num;
+    }
     out.device()->seek(0);//This goes back to beginning to overwrite quint value
     out << (quint16)(block.size() - sizeof(quint16));//for actual data size
-
     //TCPSocket work
-    QTcpSocket *clientConnection = hotelServer->nextPendingConnection();
+    clientConnection = hotelServer->nextPendingConnection();
     connect(clientConnection, &QAbstractSocket::disconnected,
             clientConnection, &QObject::deleteLater);
     clientConnection->write(block);
     clientConnection->disconnectFromHost();
 
-    sendRoomData();
 }
 
 void MainWindow::sendRoomData()
 {
-    roomData *curRoomData = new roomData();
+    qDebug()<<"sendRoomData called";
+    roomData **curRoomData = new roomData*[49];
+    for(int i=0;i<49;i++){
+        curRoomData[i]= new roomData();
+    }
 
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_0);
     out << (quint16)0;//REMEMBER TO DECLARE CLASS INHERITS QOBJECT
     for(int i=0;i<49;i++){
-    curRoomData[i].setRoomData(curRoomData[i],i);//this is the roomData
-    qDebug()<<curRoomData[i].num;
+    curRoomData[i]->setRoomData(i);//this is the roomData allocation
+    out<<(qint32)curRoomData[i]->num;
+    qDebug()<<(qint32)curRoomData[i]->num;
     }
-    //out<<
     out.device()->seek(0);
     out<< (quint16)(block.size()-sizeof(quint16));
-    QTcpSocket *clientConnection = hotelServer->nextPendingConnection();
-    connect(clientConnection, &QAbstractSocket::disconnected,
-            clientConnection, &QObject::deleteLater);
+
     clientConnection->write(block);
     clientConnection->disconnectFromHost();
 
-    sendGuestData();
+    //!Call Destructor here to stop memory leak
+    //sendGuestData();
 }
 void MainWindow::sendGuestData()
 {
@@ -151,4 +162,13 @@ void MainWindow::sendGuestData()
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_quitButton_clicked()
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Exit", "Are you sure you wanna Quit?",
+                                  QMessageBox::Yes | QMessageBox::No);
+    if(reply == QMessageBox::Yes){
+        QCoreApplication::exit();}
 }

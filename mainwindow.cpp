@@ -99,48 +99,26 @@ void MainWindow::sendHotelInfo()
 
     out << (quint16)0;
     out << hotelInfo;
+
     for(int i=0;i<49;i++){
     curRoomData[i]->setRoomData(i);//this is the roomData allocation
     out <<(qint32)curRoomData[i]->num;
-    qDebug()<<(qint32)curRoomData[i]->num;
+    out<<(QString)curRoomData[i]->bedType;
+    out<<(bool)curRoomData[i]->occupied;
+
+    qDebug()<<(QString)curRoomData[i]->bedType;
     }
     out.device()->seek(0);//This goes back to beginning to overwrite quint value
     out << (quint16)(block.size() - sizeof(quint16));//for actual data size
+
     //TCPSocket work
     clientConnection = hotelServer->nextPendingConnection();
     connect(clientConnection, &QAbstractSocket::disconnected,
             clientConnection, &QObject::deleteLater);
     clientConnection->write(block);
     clientConnection->disconnectFromHost();
-
 }
 
-void MainWindow::sendRoomData()
-{
-    qDebug()<<"sendRoomData called";
-    roomData **curRoomData = new roomData*[49];
-    for(int i=0;i<49;i++){
-        curRoomData[i]= new roomData();
-    }
-
-    QByteArray block;
-    QDataStream out(&block, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_4_0);
-    out << (quint16)0;//REMEMBER TO DECLARE CLASS INHERITS QOBJECT
-    for(int i=0;i<49;i++){
-    curRoomData[i]->setRoomData(i);//this is the roomData allocation
-    out<<(qint32)curRoomData[i]->num;
-    qDebug()<<(qint32)curRoomData[i]->num;
-    }
-    out.device()->seek(0);
-    out<< (quint16)(block.size()-sizeof(quint16));
-
-    clientConnection->write(block);
-    clientConnection->disconnectFromHost();
-
-    //!Call Destructor here to stop memory leak
-    //sendGuestData();
-}
 void MainWindow::sendGuestData()
 {
 

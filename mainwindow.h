@@ -27,7 +27,6 @@ public:
 private slots:
     void sessionOpened();
     void sendGuestData();
-    void sendRoomData();
     void sendHotelInfo();
     void on_quitButton_clicked();
 

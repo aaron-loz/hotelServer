@@ -7,6 +7,7 @@ roomData::roomData()
 
 void roomData::setRoomData(int &i){
     //In The Future: When Client asks to set room stuff, this will do change to the roomData
+    occupied =false;
     if(i%2==0){
         smoking =false;
         bedType ="King";

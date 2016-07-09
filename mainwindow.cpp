@@ -92,6 +92,10 @@ void MainWindow::sendHotelInfo()
         curRoomData[i]= new roomData();
     }
 
+    guestData **curGuestData = new guestData*[3];
+    for(int i=0;i<3;i++){
+        curGuestData[i]= new guestData();
+    }
     qDebug()<<"sendHotelInfo called";
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
@@ -105,9 +109,12 @@ void MainWindow::sendHotelInfo()
     out <<(qint32)curRoomData[i]->num;
     out<<(QString)curRoomData[i]->bedType;
     out<<(bool)curRoomData[i]->occupied;
-
-    qDebug()<<(QString)curRoomData[i]->bedType;
     }
+    for(int i=0;i<3;i++){
+        curGuestData[i]->setGuestData(i, 100+i);
+        out<<(QString)curGuestData[i]->fullName;
+    }
+
     out.device()->seek(0);//This goes back to beginning to overwrite quint value
     out << (quint16)(block.size() - sizeof(quint16));//for actual data size
 
@@ -119,23 +126,6 @@ void MainWindow::sendHotelInfo()
     clientConnection->disconnectFromHost();
 }
 
-void MainWindow::sendGuestData()
-{
-
-
-    QByteArray block;
-    QDataStream out(&block, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_4_0);
-    out << (quint16)0;//this is guestData
-    out<<curGuestData->guestInfo;
-    out.device()->seek(0);
-    out<<(quint16)(block.size()-sizeof(quint16));
-    QTcpSocket *clientConnection = hotelServer->nextPendingConnection();
-    connect(clientConnection, &QAbstractSocket::disconnected,
-            clientConnection, &QObject::deleteLater);
-    clientConnection->write(block);
-    clientConnection->disconnectFromHost();
-}
 
 MainWindow::~MainWindow()
 {

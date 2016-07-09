@@ -8,12 +8,11 @@ class guestData: public QObject
     Q_OBJECT
 public:
     guestData();
-    QString guestInfo;
-private slots:
-    void setGuestData();
+public slots:
+    void setGuestData(int &i, int roomNum);
     void setCheckIn();
     void getGuestData();
-private:
+public:
 QString fullName;
 int numNights;
 int checkInDate;

@@ -26,15 +26,13 @@ public:
     ~MainWindow();
 private slots:
     void sessionOpened();
-    void sendGuestData();
     void sendHotelInfo();
     void on_quitButton_clicked();
 
 private:
     QNetworkSession *networkSession;
     QTcpServer *hotelServer;
-    guestData *curGuestData;
-    roomData *curRoomData;
+
     QString hotelInfo;
     Ui::MainWindow *ui;
     QTcpSocket *clientConnection;

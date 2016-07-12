@@ -113,6 +113,9 @@ void MainWindow::sendHotelInfo()
     for(int i=0;i<3;i++){
         curGuestData[i]->setGuestData(i, 100+i);
         out<<(QString)curGuestData[i]->fullName;
+        out<<(qint32)curGuestData[i]->checkInDate;
+        out<<(qint32)curGuestData[i]->numNights;
+        out<<(qint32)curGuestData[i]->roomNumAssigned;
     }
 
     out.device()->seek(0);//This goes back to beginning to overwrite quint value

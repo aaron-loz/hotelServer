@@ -28,6 +28,7 @@ private slots:
     void sessionOpened();
     void sendHotelInfo();
     void on_quitButton_clicked();
+    void recieveHotelInfo();
 
 private:
     QNetworkSession *networkSession;

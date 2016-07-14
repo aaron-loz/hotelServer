@@ -129,6 +129,10 @@ void MainWindow::sendHotelInfo()
     clientConnection->disconnectFromHost();
 }
 
+void MainWindow::recieveHotelInfo()
+{
+
+}
 
 MainWindow::~MainWindow()
 {

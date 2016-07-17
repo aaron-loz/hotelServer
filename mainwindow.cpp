@@ -9,8 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     hotelServer(Q_NULLPTR),
     networkSession(0),
     ui(new Ui::MainWindow)
-{
-    ui->setupUi(this);
+{    ui->setupUi(this);
 
     QNetworkConfigurationManager manager;
     if (manager.capabilities() & QNetworkConfigurationManager::NetworkSessionRequired) {

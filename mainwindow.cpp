@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     networkSession(0),
     ui(new Ui::MainWindow)
 {    ui->setupUi(this);
-
+//sets manager incase something changes
     QNetworkConfigurationManager manager;
     if (manager.capabilities() & QNetworkConfigurationManager::NetworkSessionRequired) {
         QSettings settings(QSettings::UserScope, QLatin1String("QtProject"));
@@ -35,17 +35,15 @@ MainWindow::MainWindow(QWidget *parent) :
               "Number of available rooms: 50\n"
               "Number of floors: 10\n"
               "Number of unavailable rooms: 5");
-
+//hotelInfo set for mock purposes
     connect(ui->quitButton, &QAbstractButton::clicked, this, &QWidget::close);
-//!This might need to change so that I can send data that is not just hotelInfo
     connect(hotelServer, &QTcpServer::newConnection, this, &MainWindow::sendHotelInfo);
 
     setWindowTitle("Hotel Server");
 }
 
 void MainWindow::sessionOpened()
-{
-    qDebug()<<"sessionOpened called";
+{//saves any settings needed
     if(networkSession){
         QNetworkConfiguration config = networkSession->configuration();
         QString id;
@@ -58,7 +56,7 @@ void MainWindow::sessionOpened()
         settings.setValue(QLatin1String("DefaultNetworkConfiguration"), id);
         settings.endGroup();
     }
-
+//in case problem starting server.
     hotelServer = new QTcpServer(this);
     if(!hotelServer->listen())
     {
@@ -68,7 +66,7 @@ void MainWindow::sessionOpened()
         close();
         return;
     }
-
+//for user readability, ipaddress is labeled
     QString ipAddress;
     QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
     for (int i = 0; i < ipAddressesList.size(); ++i) {
@@ -82,10 +80,12 @@ void MainWindow::sessionOpened()
     ui->statusLabel->setText("Server is now running. Please open client application.");
     ui->IPLabel->setText(tr("ServerIP: %1").arg(ipAddress));
     ui->portLabel->setText(tr("Port: %1").arg(hotelServer->serverPort()));
+
 }
 
 void MainWindow::sendHotelInfo()
 {
+    //double pointer to allow for array to work correctly.
     roomData **curRoomData = new roomData*[49];
     for(int i=0;i<49;i++){
         curRoomData[i]= new roomData();
@@ -95,16 +95,15 @@ void MainWindow::sendHotelInfo()
     for(int i=0;i<3;i++){
         curGuestData[i]= new guestData();
     }
-    qDebug()<<"sendHotelInfo called";
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_0);
 
     out << (quint16)0;
     out << hotelInfo;
-
+    //sets data for streaming
     for(int i=0;i<49;i++){
-    curRoomData[i]->setRoomData(i);//this is the roomData allocation
+    curRoomData[i]->setRoomData(i);
     out <<(qint32)curRoomData[i]->num;
     out<<(QString)curRoomData[i]->bedType;
     out<<(bool)curRoomData[i]->occupied;
@@ -119,8 +118,7 @@ void MainWindow::sendHotelInfo()
 
     out.device()->seek(0);//This goes back to beginning to overwrite quint value
     out << (quint16)(block.size() - sizeof(quint16));//for actual data size
-
-    //TCPSocket work
+    //actual TCPSocket work
     clientConnection = hotelServer->nextPendingConnection();
     connect(clientConnection, &QAbstractSocket::disconnected,
             clientConnection, &QObject::deleteLater);

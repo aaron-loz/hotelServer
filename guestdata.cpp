@@ -5,12 +5,9 @@ guestData::guestData()
 
 }
 
-void guestData::setCheckIn(){
-
-}
 
 void guestData::setGuestData(int &i, int roomNum){
-    switch(i){
+    switch(i){//will be random.
     case 0:
         fullName="Aaron L.";
         numNights = 3;
@@ -31,10 +28,4 @@ void guestData::setGuestData(int &i, int roomNum){
         break;
     }
 
-}
-
-void guestData::getGuestData(){
-    QByteArray block;
-    QDataStream out(&block, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_4_0);
 }

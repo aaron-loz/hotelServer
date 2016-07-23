@@ -4,7 +4,7 @@ roomData::roomData()
 {
 }
 
-
+//sets room info, but static
 void roomData::setRoomData(int &i){
     occupied =false;
     if(i%2==0){

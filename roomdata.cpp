@@ -4,9 +4,8 @@ roomData::roomData()
 {
 }
 
-
+//sets room info, but static
 void roomData::setRoomData(int &i){
-    //In The Future: When Client asks to set room stuff, this will do change to the roomData
     occupied =false;
     if(i%2==0){
         smoking =false;
@@ -77,21 +76,7 @@ void roomData::setRoomData(int &i){
       }
 
     if(i<3){
-        //For now the first three rooms will be occupied, I want to make this random
+        //For now the first three rooms will be set, I want to make this random
         occupied = true;
     }
-}
-
-void roomData::getRoom(){
-    QString isRoomSmoking;
-    if(smoking)
-        isRoomSmoking = "Yes";
-    else
-        isRoomSmoking = "No";
-    QByteArray block;
-    QDataStream out(&block, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_4_0);
-    roomInfo="Room Number: ",num,"\nNumber of beds: ",numBeds
-           ,"\nsmoking: ",isRoomSmoking,"\nFloor: ",floorLvl
-           ,"\nbed Type: ",bedType;
 }

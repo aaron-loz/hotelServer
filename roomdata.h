@@ -10,7 +10,6 @@ public:
     QString roomInfo;
 public slots:
 void setRoomData(int &i);
-void getRoom();
 
 public:
 int num;

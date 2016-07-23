@@ -10,8 +10,6 @@ public:
     guestData();
 public slots:
     void setGuestData(int &i, int roomNum);
-    void setCheckIn();
-    void getGuestData();
 public:
 QString fullName;
 int numNights;

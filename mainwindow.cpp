@@ -30,11 +30,12 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     else {//if none of this can be done then it opens session straight away
             sessionOpened();}
-
+//!REMOVE AFTER SAVE FILE IMPLEMENTATION
     hotelInfo =tr("Hotel Name: Hampton Inn\n"
               "Number of available rooms: 50\n"
               "Number of floors: 10\n"
               "Number of unavailable rooms: 5");
+     //!REMOVE AFTER SAVE FILE IMPLEMENTATION
 //hotelInfo set for mock purposes
     connect(ui->quitButton, &QAbstractButton::clicked, this, &QWidget::close);
     connect(hotelServer, &QTcpServer::newConnection, this, &MainWindow::sendHotelInfo);
@@ -107,6 +108,7 @@ void MainWindow::sendHotelInfo()
     out <<(qint32)curRoomData[i]->num;
     out<<(QString)curRoomData[i]->bedType;
     out<<(bool)curRoomData[i]->occupied;
+
     }
     for(int i=0;i<3;i++){
         curGuestData[i]->setGuestData(i, 100+i);

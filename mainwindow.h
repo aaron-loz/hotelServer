@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include "savefileclass.h"
+#include "roomdata.h"
+#include "guestdata.h"
 
 #include <QString>
 #include <QDialog>
@@ -27,17 +28,15 @@ private slots:
     void sessionOpened();
     void sendHotelInfo();
     void on_quitButton_clicked();
-    void recieveHotelInfo();
 
 private:
     QNetworkSession *networkSession;
     QTcpServer *hotelServer;
 
-    QString hotelInfo;
     Ui::MainWindow *ui;
     QTcpSocket *clientConnection;
+    QString hotelInfo;
 
-    saveFileClass saveFile;
 signals:
     void socketConnected();
 };

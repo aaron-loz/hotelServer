@@ -9,8 +9,9 @@ MainWindow::MainWindow(QWidget *parent) :
     hotelServer(Q_NULLPTR),
     networkSession(0),
     ui(new Ui::MainWindow)
-{    ui->setupUi(this);
-//sets manager incase something changes
+{
+    ui->setupUi(this);
+    //sets manager incase something changes
     QNetworkConfigurationManager manager;
     if (manager.capabilities() & QNetworkConfigurationManager::NetworkSessionRequired) {
         QSettings settings(QSettings::UserScope, QLatin1String("QtProject"));
@@ -28,15 +29,16 @@ MainWindow::MainWindow(QWidget *parent) :
         networkSession->open();
 
     }
-    else {//if none of this can be done then it opens session straight away
+
+    else {//opens session straight away
             sessionOpened();}
-//!REMOVE AFTER SAVE FILE IMPLEMENTATION
+
     hotelInfo =tr("Hotel Name: Hampton Inn\n"
-              "Number of available rooms: 50\n"
-              "Number of floors: 10\n"
-              "Number of unavailable rooms: 5");
-     //!REMOVE AFTER SAVE FILE IMPLEMENTATION
-//hotelInfo set for mock purposes
+                      "Number of available rooms: 50\n"
+                      "Number of floors: 10\n"
+                      "Number of unavailable rooms: 5");
+
+    //hotelInfo set for mock purposes
     connect(ui->quitButton, &QAbstractButton::clicked, this, &QWidget::close);
     connect(hotelServer, &QTcpServer::newConnection, this, &MainWindow::sendHotelInfo);
 
@@ -44,7 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::sessionOpened()
-{//saves any settings needed
+{
+    //saves any settings needed
     if(networkSession){
         QNetworkConfiguration config = networkSession->configuration();
         QString id;
@@ -57,7 +60,8 @@ void MainWindow::sessionOpened()
         settings.setValue(QLatin1String("DefaultNetworkConfiguration"), id);
         settings.endGroup();
     }
-//in case problem starting server.
+
+    //in case problem starting server.
     hotelServer = new QTcpServer(this);
     if(!hotelServer->listen())
     {
@@ -67,7 +71,8 @@ void MainWindow::sessionOpened()
         close();
         return;
     }
-//for user readability, ipaddress is labeled
+
+    //for user readability, ipaddress is labeled
     QString ipAddress;
     QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
     for (int i = 0; i < ipAddressesList.size(); ++i) {
@@ -78,6 +83,7 @@ void MainWindow::sessionOpened()
     }
     if (ipAddress.isEmpty()){
         ipAddress = QHostAddress(QHostAddress::LocalHost).toString();}
+
     ui->statusLabel->setText("Server is now running. Please open client application.");
     ui->IPLabel->setText(tr("ServerIP: %1").arg(ipAddress));
     ui->portLabel->setText(tr("Port: %1").arg(hotelServer->serverPort()));
@@ -102,13 +108,12 @@ void MainWindow::sendHotelInfo()
 
     out << (quint16)0;
     out << hotelInfo;
-    //sets data for streaming
+    //sets data for streaming and saving file for client so client does not need to connect to server.
     for(int i=0;i<49;i++){
     curRoomData[i]->setRoomData(i);
     out <<(qint32)curRoomData[i]->num;
     out<<(QString)curRoomData[i]->bedType;
-    out<<(bool)curRoomData[i]->occupied;
-
+    out<<curRoomData[i]->occupied;
     }
     for(int i=0;i<3;i++){
         curGuestData[i]->setGuestData(i, 100+i);
@@ -120,7 +125,7 @@ void MainWindow::sendHotelInfo()
 
     out.device()->seek(0);//This goes back to beginning to overwrite quint value
     out << (quint16)(block.size() - sizeof(quint16));//for actual data size
-    //actual TCPSocket work
+
     clientConnection = hotelServer->nextPendingConnection();
     connect(clientConnection, &QAbstractSocket::disconnected,
             clientConnection, &QObject::deleteLater);
@@ -128,10 +133,6 @@ void MainWindow::sendHotelInfo()
     clientConnection->disconnectFromHost();
 }
 
-void MainWindow::recieveHotelInfo()
-{
-
-}
 
 MainWindow::~MainWindow()
 {

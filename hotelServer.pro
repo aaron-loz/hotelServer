@@ -15,13 +15,11 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     roomdata.cpp \
-    guestdata.cpp \
-    savefileclass.cpp
+    guestdata.cpp
 
 HEADERS  += mainwindow.h \
     roomdata.h \
-    guestdata.h \
-    savefileclass.h
+    guestdata.h
 
 FORMS    += mainwindow.ui
 # install

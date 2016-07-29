@@ -93,8 +93,8 @@ void MainWindow::sessionOpened()
 void MainWindow::sendHotelInfo()
 {
     //double pointer to allow for array to work correctly.
-    roomData **curRoomData = new roomData*[49];
-    for(int i=0;i<49;i++){
+    roomData **curRoomData = new roomData*[50];
+    for(int i=0;i<50;i++){
         curRoomData[i]= new roomData();
     }
 
@@ -109,11 +109,11 @@ void MainWindow::sendHotelInfo()
     out << (quint16)0;
     out << hotelInfo;
     //sets data for streaming and saving file for client so client does not need to connect to server.
-    for(int i=0;i<49;i++){
+    for(int i=0;i<=49;i++){
     curRoomData[i]->setRoomData(i);
     out <<(qint32)curRoomData[i]->num;
     out<<(QString)curRoomData[i]->bedType;
-    out<<curRoomData[i]->occupied;
+    out<<(bool)curRoomData[i]->occupied;
     }
     for(int i=0;i<3;i++){
         curGuestData[i]->setGuestData(i, 100+i);

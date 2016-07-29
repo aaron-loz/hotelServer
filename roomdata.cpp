@@ -23,7 +23,6 @@ void roomData::setRoomData(int &i){
         else
             numBeds=1;
     }
-
       if( i<5)
       {
            floorLvl=1;
